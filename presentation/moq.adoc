@@ -1,0 +1,8 @@
+:revealjs_theme: white
+= Tech Talks: Moq
+
+== Eugene Shmakov
+
+* Software Developer @ CGM/KMS
+* https://github.com/enginexon
+
