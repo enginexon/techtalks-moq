@@ -1,3 +1,3 @@
 # Tech Talks: Moq
-* [Presenataion](./presentation/moq.adoc) in assciidoc format
+* [Presenataion](./presentation/moq.adoc) in asciidoc format
 * [MoqDemo](./src/) project
