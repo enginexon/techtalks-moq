@@ -1,4 +1,5 @@
 :revealjs_theme: white
+:source-highlighter: highlightjs
 = Tech Talks: Moq
 
 == Eugene Shmakov
@@ -8,21 +9,17 @@
 
 == Code
 
-[source,xml]
+[source, xml]
 ....
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
 </Project>
 ....
-
-
 
 == Links
 https://github.com/enginexon/techtalks-moq
