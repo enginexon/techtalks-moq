@@ -7,18 +7,86 @@
 * Software Developer @ CGM/KMS
 * https://github.com/enginexon
 
-== Code
+== Mock Method
 
-[source, xml]
+[source,c#]
 ....
-<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
-</Project>
+var mockCompany = new Company()
+{
+    Name = "FlixBus"
+};
+var mockRepository = new Mock<ICompanyRepository>();
+mockRepository
+    .Setup(x => x.GetByName(mockCompany.Name))
+    .Returns(mockCompany);
+....
+
+== It.IsAny<T>()
+[source,c#]
+....
+var mockCompany = new Company()
+{
+    Name = "FlixBus"
+};
+var mockRepository = new Mock<ICompanyRepository>();
+mockRepository.Setup(x => x.GetByName(It.IsAny<string>()))
+    .Returns(mockCompany);
+....
+
+== Another helper methods
+* It.IsRegex(...) - matches regex
+* It.IsIn(...) - matches any item
+* It.IsInRange(...) - value inside range
+* few more
+
+== Mock out parameters
+[source,c#]
+....
+var mockCompany = new Company()
+{
+    Name = "FlixBus"
+};
+var companyResultOut = new CompanyResult()
+{
+    Company = mockCompany
+};
+var mockRepository = new Mock<ICompanyRepository>();
+mockRepository
+    .Setup(x => x.GetByNameOut(
+        mockCompany.Name, out companyResultOut));
+....
+
+== Mock ref parameters
+[source,c#]
+....
+var mockCompany = new Company() { Name = "FlixBus" };
+var companyResultRef = new CompanyResult()
+{
+    Company = mockCompany
+};
+var mockRepository = new Mock<ICompanyRepository>();
+mockRepository
+    .Setup(x => x.GetByNameRef(
+        mockCompany.Name, ref It.Ref<CompanyResult>.IsAny))
+    .Callback(new GetByNameRefCallback(
+        (string name, ref CompanyResult result)
+        => result = companyResultRef));
+....
+
+== Mock properties
+Using Setup
+[source,c#]
+....
+const string companyName = "FlixBus";
+var mockCompany = new Mock<Company>();
+mockCompany.Setup(x => x.Name).Returns(companyName);
+....
+Using SetupProperty
+[source,c#]
+....
+const string companyName = "FlixBus";
+var mockCompany = new Mock<Company>();
+mockCompany.SetupProperty(x => x.Name, companyName);
 ....
 
 == Links
