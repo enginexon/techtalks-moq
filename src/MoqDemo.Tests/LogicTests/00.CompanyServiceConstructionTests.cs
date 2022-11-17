@@ -8,6 +8,6 @@ public class CompanyServiceConstructionTests
     [Test]
     public void Constructor_ShouldWork()
     {
-        var sut = new CompanyService(null);
+        Assert.Throws<ArgumentNullException>(() => new CompanyService(null));
     }
 }

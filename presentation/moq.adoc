@@ -74,6 +74,7 @@ mockRepository
 ....
 
 == Mock properties
+*For virtual properties* +
 Using Setup
 [source,c#]
 ....
@@ -87,6 +88,111 @@ Using SetupProperty
 const string companyName = "FlixBus";
 var mockCompany = new Mock<Company>();
 mockCompany.SetupProperty(x => x.Name, companyName);
+....
+
+== Mock nested properties
+[source,c#]
+....
+const int overallScore = 10;
+var mockCompanyResult = new Mock<CompanyResult>();
+mockCompanyResult.SetupProperty(
+    x => x.Company.Rating.OverallScore, overallScore);
+....
+
+== Mock throwing exceptions
+[source,c#]
+....
+var mockCompany = new Company()
+{
+    Name = "FlixBus"
+};
+var mockRepository = new Mock<ICompanyRepository>();
+
+mockRepository.Setup(x => x.GetByName(mockCompany.Name))
+    .Throws<SqlTruncateException>();
+
+mockRepository.Setup(x => x.GetByName(mockCompany.Name))
+    .Throws(new SqlTruncateException());
+....
+
+== Verify calls
+[source,c#]
+....
+mockRepository.Verify(
+    x => x.GetByName(mockCompany.Name));
+mockRepository.Verify(
+    x => x.GetByName(mockCompany.Name), Times.Once);
+mockRepository.Verify(
+    x => x.GetByName(It.IsAny<string>()), Times.AtLeastOnce);
+....
+
+== VerifyGet for properties
+[source,c#]
+....
+mockCompanyResult.VerifyGet(
+    x => x.Company.Rating.OverallScore);
+mockCompanyResult.VerifyGet(
+    x => x.Company.Rating.OverallScore, Times.Once);
+mockCompanyResult.VerifyGet(
+    x => x.Company.Rating.OverallScore, Times.AtLeastOnce);
+....
+
+== VerifySet for properties
+[source,c#]
+....
+mockCompanyResult.VerifySet(
+    x => x.Company.Rating.OverallScore);
+mockCompanyResult.VerifySet(
+    x => x.Company.Rating.OverallScore = newOverallScore);
+....
+
+== VerifyNoOtherCalls
+[source,c#]
+....
+mockCompanyResult.VerifyNoOtherCalls();
+....
+
+== Mock protected methods
+Using "magic" strings
+[source,c#]
+....
+var mockDateTimeNowProvider= new Mock<DateTimeNowProvider>();
+mockDateTimeNowProvider
+    .Protected()
+    .Setup<DateTime>("GetCurrentTimeInternal")
+    .Returns(mockTime);
+....
+Using "fake" interfaces
+[source,c#]
+....
+var mockDateTimeNowProvider= new Mock<DateTimeNowProvider>();
+mockDateTimeNowProvider
+    .Protected()
+    .As<IFakeDateTimeNowProvider>()
+    .Setup(x => x.GetCurrentTimeInternal())
+    .Returns(mockTime);
+....
+
+== Home work
+[source,c#]
+....
+mockCompanyResult.SetupAllProperties();
+....
+[source,c#]
+....
+mockCompanyResult = new Mock<CompanyResult>(
+    MockBehavior.Strict);
+....
+[source,c#]
+....
+mockCompanyResult = new Mock<CompanyResult>()
+{
+    DefaultValue = DefaultValue.Mock
+};
+....
+[source,c#]
+....
+mockObject.Setup(...).Raises(...)
 ....
 
 == Links

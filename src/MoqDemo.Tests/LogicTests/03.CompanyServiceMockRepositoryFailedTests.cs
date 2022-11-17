@@ -7,20 +7,20 @@ namespace MoqDemo.Tests.LogicTests;
 public class CompanyServiceMockRepositoryFailedTests
 {
     [Test]
-    public void GetByName_ShouldWork()
+    public void GetByName_ShouldReturnNull()
     {
         var mockRepository = new Mock<ICompanyRepository>();
         var sut = new CompanyService(mockRepository.Object);
         var company = sut.GetByName(string.Empty);
-        Assert.That(company, Is.Not.Null);
+        Assert.That(company, Is.Null);
     }
     
     [Test]
-    public async Task GetByNameAsync_ShouldWork()
+    public async Task GetByNameAsync_ShouldReturnNull()
     {
         var mockRepository = new Mock<ICompanyRepository>();
         var sut = new CompanyService(mockRepository.Object);
         var company = await sut.GetByNameAsync(string.Empty);
-        Assert.That(company, Is.Not.Null);
+        Assert.That(company, Is.Null);
     }
 }

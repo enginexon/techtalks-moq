@@ -3,5 +3,5 @@
 public class Company
 {
     public virtual string? Name { get; set; }
-    public CompanyRating? Rating { get; set; }
+    public virtual CompanyRating? Rating { get; set; }
 }

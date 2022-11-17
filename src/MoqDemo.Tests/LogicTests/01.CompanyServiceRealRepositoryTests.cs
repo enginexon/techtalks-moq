@@ -10,6 +10,6 @@ public class CompanyServiceRealRepositoryTests
     {
         var repository = new CompanyRepository();
         var sut = new CompanyService(repository);
-        sut.GetByName(string.Empty);
+        Assert.Throws<Exception>(() => sut.GetByName(string.Empty));
     }
 }
